@@ -2,7 +2,7 @@ const Employee = require('../lib/Employee');
 
 //creates object for employee
 test('creates an employee object', () => {
-    const employee = new Employee('Michael', '20', 'm.zimm20@gmail.com');
+    const employee = new Employee('Michael', 20, 'm.zimm20@gmail.com');
 
     expect(employee.name).toEqual(expect.any(String));
     expect(employee.id).toEqual(expect.any(Number));
