@@ -14,12 +14,25 @@ const managerInput = () => {
         {
             type: 'input',
             name: 'name',
-            message: "Enter your manager's name",
+            message: "Enter your manager's name (Required)",
             validate: managerName => {
                 if (managerName) {
                     return true;
                 } else {
                     console.log("Please enter your manager's name!");
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'email', //Manager's Email
+            message: 'What is the email address? (Required)',
+            validate: emailInput => {
+                if (emailInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a valid email address!');
                     return false;
                 }
             }
