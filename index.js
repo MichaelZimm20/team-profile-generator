@@ -74,7 +74,31 @@ const managerInput = () => {
         // push desctrutured items into new array to prep for output
         teamProfileArr.push(manager);
     })
-}
+};
+
+
+// A function to write HTML file
+function writeFile(data)  {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./dist/index.html', data, err => {
+             // if there's an error, reject the Promise and send the error to the Promise's .catch() method
+             if (err) {
+                reject(err);
+                // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
+                return;
+             }
+
+            // if everything went well, resolve the Promise and send te successful data to the `.then()` method 
+            resolve({
+                ok: true,
+                message: 'Your HTML file has been created!'
+            });
+        });
+    });
+};
+
+
+
 
 managerInput()
 .then(answers => {console.log(answers)})
