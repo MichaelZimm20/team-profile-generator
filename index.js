@@ -68,7 +68,7 @@ const addManager = () => {
         .then(teamManager => {
             // descruture properties from object array
             const { name, id, email, officeNumber } = teamManager;
-            const manager = new manager(name, id, email, officeNumber);
+            const manager = new Manager(name, id, email, officeNumber);
             console.log(manager);
 
             // push desctrutured items into new array to prep for output
@@ -170,39 +170,30 @@ const promptEmployee = () => {
 
     ])
         .then(teamEmployeeData => {
-            let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
             let newEmployee;
-            switch (teamEmployeeData) {
+            let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
+            
+            switch (teamEmployeeData.role) {
                 case 'Engineer':
                     if (role === 'Engineer') {
-                        newEmployee = new Engineer(name, id, email, github);
+                       newEmployee = new Engineer(name, id, email, github);
+                        console.log(newEmployee);
                     }
-                    teamProfileArr.push(newEmployee);
                     break;
                 case 'Intern':
                     if (role === 'Intern') {
-                        newEmployee = new Intern(name, id, email, school);
+                         newEmployee = new Intern(name, id, email, school);
+                        console.log(newEmployee);
                     }
-                    teamProfileArr.push(newEmployee);
                     break;
-                case 'confirmNewEmployee':
+                }
+                
+                teamProfileArr.push(newEmployee);
                     if (confirmNewEmployee) {
                         return promptEmployee(teamProfileArr)
                     } else return teamProfileArr
-            }
-
-
-
-
         });
-
 };
-
-
-
-
-
-
 
 
 
@@ -230,4 +221,5 @@ function writeFile(data) {
 
 
 addManager()
-    .then(answers => { console.log(answers) })
+    .then(promptEmployee)
+    .then(answers => { console.log(answers)})
