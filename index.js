@@ -10,7 +10,7 @@ const Intern  = require('./lib/Intern');
 const teamProfileArr = [];
 
 //Manager Prompt
-const managerInput = () => {
+const addManager = () => {
     return inquirer.prompt ([
         {
             type: 'input',
@@ -77,6 +77,125 @@ const managerInput = () => {
 };
 
 
+
+
+const promptEmployee = () => {
+    
+    console.log(`
+        =================
+        Add a New Employee to the Team
+        =================
+        `);
+
+    return  inquirer.prompt([
+        {
+            type: 'list',
+            name: 'role',
+            message: "Select the employee's role",
+            choices: ['Engineer', 'Intern']
+        },
+        {
+            type: 'input',
+            name: 'name',
+            message: 'What is the employee name ? (Required)',
+            validate: nameInput => {
+                if (nameInput) {
+                  return true;
+                } else {
+                  console.log('Please enter a valid employee name!');
+                  return false;
+                }
+              }
+        },
+        {
+            type: 'input',
+            name: 'id',
+            message: "Enter the employee's ID",
+            validate: employeeId => {
+                if (employeeId) {
+                    return true;
+                }else {
+                    console.log('Please enter a valid ID!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'email', 
+            message: 'What is the email address? (Required)',
+            validate: emailInput => {
+                if (emailInput) {
+                    return true;
+                } else {
+                    console.log('Please enter a valid email address!');
+                    return false;
+                }
+            }
+        },
+        {
+            type: 'input',
+            name: 'github',
+            message: 'Since you are an Engineer, please enter a github username. (Required)',
+            when: (input) => input.role === "Engineer",
+            validate: gitInput => {
+                if (gitInput) {
+                  return true;
+                } else {
+                  console.log('You need to enter a valid GitHub username!');
+                  return false;
+                }
+              }
+        },
+        {
+            type: 'input',
+            name: 'school',
+            message: 'Since you are an Intern, please enter the school you attended. (Required)',
+            when: (input) => input.role === "Intern",
+            validate: schoolInput => {
+                if (schoolInput) {
+                  return true;
+                } else {
+                  console.log('You need to enter a valid school name!');
+                  return false;
+                }
+              }
+        },
+        {
+            type: 'confirm',
+            name: 'confirmNewEmployee',
+            message: 'Would you like to add another employee?',
+            default: false
+        },
+  
+    ])
+    .then(teamEmployeeData => {
+            let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
+            let newEmployee;
+            switch (teamEmployeeData) {
+                case 'Engineer':
+                        if (role === 'Engineer') {
+                            newEmployee = new Engineer (name, id, email, github);
+                        }
+            
+
+        }
+
+        
+
+       
+    });
+    
+};
+
+
+
+
+
+
+
+
+
 // A function to write HTML file
 function writeFile(data)  {
     return new Promise((resolve, reject) => {
@@ -100,5 +219,5 @@ function writeFile(data)  {
 
 
 
-managerInput()
+addManager()
 .then(answers => {console.log(answers)})
