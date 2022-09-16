@@ -5,13 +5,13 @@ const fs = require('fs');
 //ES6 class profiles for Manager, Engineer, Intern
 const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
-const Intern  = require('./lib/Intern');
+const Intern = require('./lib/Intern');
 
 const teamProfileArr = [];
 
 //Manager Prompt
 const addManager = () => {
-    return inquirer.prompt ([
+    return inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -32,7 +32,7 @@ const addManager = () => {
             validate: managerId => {
                 if (managerId) {
                     return true;
-                }else {
+                } else {
                     console.log('Please enter a valid ID!');
                     return false;
                 }
@@ -65,29 +65,29 @@ const addManager = () => {
             }
         }
     ])
-    .then(teamManager => {
-        // descruture properties from object array
-        const { name, id, email, officeNumber } = teamManager;
-        const manager = new manager (name, id, email, officeNumber);
-        console.log(manager);
+        .then(teamManager => {
+            // descruture properties from object array
+            const { name, id, email, officeNumber } = teamManager;
+            const manager = new manager(name, id, email, officeNumber);
+            console.log(manager);
 
-        // push desctrutured items into new array to prep for output
-        teamProfileArr.push(manager);
-    })
+            // push desctrutured items into new array to prep for output
+            teamProfileArr.push(manager);
+        })
 };
 
 
 
 
 const promptEmployee = () => {
-    
+
     console.log(`
         =================
         Add a New Employee to the Team
         =================
         `);
 
-    return  inquirer.prompt([
+    return inquirer.prompt([
         {
             type: 'list',
             name: 'role',
@@ -100,12 +100,12 @@ const promptEmployee = () => {
             message: 'What is the employee name ? (Required)',
             validate: nameInput => {
                 if (nameInput) {
-                  return true;
+                    return true;
                 } else {
-                  console.log('Please enter a valid employee name!');
-                  return false;
+                    console.log('Please enter a valid employee name!');
+                    return false;
                 }
-              }
+            }
         },
         {
             type: 'input',
@@ -114,7 +114,7 @@ const promptEmployee = () => {
             validate: employeeId => {
                 if (employeeId) {
                     return true;
-                }else {
+                } else {
                     console.log('Please enter a valid ID!');
                     return false;
                 }
@@ -122,7 +122,7 @@ const promptEmployee = () => {
         },
         {
             type: 'input',
-            name: 'email', 
+            name: 'email',
             message: 'What is the email address? (Required)',
             validate: emailInput => {
                 if (emailInput) {
@@ -140,12 +140,12 @@ const promptEmployee = () => {
             when: (input) => input.role === "Engineer",
             validate: gitInput => {
                 if (gitInput) {
-                  return true;
+                    return true;
                 } else {
-                  console.log('You need to enter a valid GitHub username!');
-                  return false;
+                    console.log('You need to enter a valid GitHub username!');
+                    return false;
                 }
-              }
+            }
         },
         {
             type: 'input',
@@ -154,12 +154,12 @@ const promptEmployee = () => {
             when: (input) => input.role === "Intern",
             validate: schoolInput => {
                 if (schoolInput) {
-                  return true;
+                    return true;
                 } else {
-                  console.log('You need to enter a valid school name!');
-                  return false;
+                    console.log('You need to enter a valid school name!');
+                    return false;
                 }
-              }
+            }
         },
         {
             type: 'confirm',
@@ -167,25 +167,35 @@ const promptEmployee = () => {
             message: 'Would you like to add another employee?',
             default: false
         },
-  
+
     ])
-    .then(teamEmployeeData => {
+        .then(teamEmployeeData => {
             let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
             let newEmployee;
             switch (teamEmployeeData) {
                 case 'Engineer':
-                        if (role === 'Engineer') {
-                            newEmployee = new Engineer (name, id, email, github);
-                        }
-            
+                    if (role === 'Engineer') {
+                        newEmployee = new Engineer(name, id, email, github);
+                    }
+                    teamProfileArr.push(newEmployee);
+                    break;
+                case 'Intern':
+                    if (role === 'Intern') {
+                        newEmployee = new Intern(name, id, email, school);
+                    }
+                    teamProfileArr.push(newEmployee);
+                    break;
+                case 'confirmNewEmployee':
+                    if (confirmNewEmployee) {
+                        return promptEmployee(teamProfileArr)
+                    } else return teamProfileArr
+            }
 
-        }
 
-        
 
-       
-    });
-    
+
+        });
+
 };
 
 
@@ -197,15 +207,15 @@ const promptEmployee = () => {
 
 
 // A function to write HTML file
-function writeFile(data)  {
+function writeFile(data) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./dist/index.html', data, err => {
-             // if there's an error, reject the Promise and send the error to the Promise's .catch() method
-             if (err) {
+            // if there's an error, reject the Promise and send the error to the Promise's .catch() method
+            if (err) {
                 reject(err);
                 // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
                 return;
-             }
+            }
 
             // if everything went well, resolve the Promise and send te successful data to the `.then()` method 
             resolve({
@@ -220,4 +230,4 @@ function writeFile(data)  {
 
 
 addManager()
-.then(answers => {console.log(answers)})
+    .then(answers => { console.log(answers) })
