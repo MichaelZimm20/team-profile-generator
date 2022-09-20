@@ -27,13 +27,13 @@
 
 
 
-![Project Screenshot](../team-profile-generator/assets/images/Picture2.png)
+![Project Screenshot](assets/images/Picture2.png)
  <br/><br/>
-![Project Screenshot](../team-profile-generator/assets/images/Picture3.png)
+![Project Screenshot](assets/images/Picture3.png)
  <br/><br/>
- ![Project Screenshot](../team-profile-generator/assets/images/Picture4.png)
+ ![Project Screenshot](assets/images/Picture4.png)
  <br/><br/>
- ![Project Screenshot](../team-profile-generator/assets/images/Picture1.png)
+ ![Project Screenshot](assets/images/Picture1.png)
  <br/><br/>
 
  ## Important Links 
