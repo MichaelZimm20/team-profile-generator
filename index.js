@@ -7,6 +7,10 @@ const Manager = require('./lib/Manager');
 const Engineer = require('./lib/Engineer');
 const Intern = require('./lib/Intern');
 
+//links to build HTML 
+const buildHTML = require('./src/buildHTML');
+
+//team profile array 
 const teamProfileArr = [];
 
 //Manager Prompt
@@ -66,10 +70,10 @@ const addManager = () => {
         }
     ])
         .then(teamManager => {
-            // descruture properties from object array
+            // descructure properties from object array
             const { name, id, email, officeNumber } = teamManager;
             const manager = new Manager(name, id, email, officeNumber);
-            console.log(manager);
+            
 
             // push desctrutured items into new array to prep for output
             teamProfileArr.push(manager);
@@ -171,36 +175,41 @@ const promptEmployee = () => {
     ])  
         // destructing properties for Roles to receive their data and output
         .then(teamEmployeeData => {
-            let newEmployee;
+            // let newEmployee;
             let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
             
             switch (teamEmployeeData.role) {
                 case 'Engineer':
                     if (role === 'Engineer') {
-                       newEmployee = new Engineer(name, id, email, github);
-                        console.log(newEmployee);
+                      newEmployee = new Engineer(name, id, email, github);
+                        // console.log(newEmployee);
                     }
                     break;
                 case 'Intern':
                     if (role === 'Intern') {
                          newEmployee = new Intern(name, id, email, school);
-                        console.log(newEmployee);
+                        // console.log(newEmployee);
                     }
                     break;
                 }
                 
                 // if user confirms they want to add a new Team member then run employee prompt then push to array, otherwise push information to teamArr
                 teamProfileArr.push(newEmployee);
+
                     if (confirmNewEmployee) {
                         return promptEmployee(teamProfileArr)
-                    } else return teamProfileArr
+                    } else {
+
+                        // console.log(teamProfileArr);
+                        return teamProfileArr 
+                    }
         }); 
 };
 
 
 
 // A function to write HTML file
-function writeFile(data) {
+function writeToFile(data) {
     return new Promise((resolve, reject) => {
         fs.writeFile('./dist/index.html', data, err => {
             // if there's an error, reject the Promise and send the error to the Promise's .catch() method
@@ -221,17 +230,19 @@ function writeFile(data) {
 
 
 
-
+//intitializing the app
 addManager()
     .then(promptEmployee)
-    .then(answers => { console.log(answers)})
-    .then(teamProfile => {
-        return buildHTML(teamProfile);
+    .then(answers => { 
+        // console.log(answers)
+        return buildHTML(answers);
     })
-    .then(pageHTML => {
-        writeFile(pageHTML);
+    .then(teamProfileArr => {
+        return writeToFile(teamProfileArr);
+    })
+    .then(writeToFileResponse => {
+        console.log(writeToFileResponse.message)
     })
     .catch(err => {
         console.log(err);
-       
     });
