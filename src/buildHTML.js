@@ -3,10 +3,10 @@
     // generate manager to html
     const managerGenerator = function (manager)  {
         return `
-        <div class = 'card col-md-3'>
+        <div class = 'card card-style'>
             <div class = 'card-header bg-primary text-white'>
                 <h2 class = 'card-title'>${manager.getName()}</h2>
-                <h4 class = 'card-title'><i class="fas fa-mug-hot"></i>${manager.getRole()}</h4>
+                <h4 class = 'card-title'><i class="fas fa-mug-hot"></i> ${manager.getRole()}</h4>
             </div>
 
             <div class = 'card-body'>
@@ -25,10 +25,10 @@
     //generate engineer to html 
     const engineerGenerator = function(engineer)  {
         return `
-        <div class = 'card col-md-3'>
+        <div class = 'card  card-style'>
             <div class = 'card-header bg-primary text-white'>
                 <h2 class = 'card-title'>${engineer.getName()}</h2>
-                <h4 class = 'card-title'><i class="fas fa-glasses"></i>${engineer.getRole()}</h4>
+                <h4 class = 'card-title'><i class="fas fa-glasses"></i> ${engineer.getRole()}</h4>
             </div>
 
             <div class = 'card-body'>
@@ -46,10 +46,10 @@
     //generate intern to html
     const internGenerator = function(intern) {
         return `
-        <div class = 'card col-md-3'>
+        <div class = 'card  card-style'>
             <div class = 'card-header bg-primary text-white'>
                 <h2 class = 'card-title'>${intern.getName()}</h2>
-                <h4 class = 'card-title'><i class="fas fa-glasses"></i>${intern.getRole()}</h4>
+                <h4 class = 'card-title'><i class="fas fa-glasses"></i> ${intern.getRole()}</h4>
             </div>
 
             <div class = 'card-body'>
@@ -111,7 +111,7 @@
             <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
             integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
         
-        
+            <link rel="stylesheet" href="style.css">
             <script src="https://kit.fontawesome.com/7c83ffe4d1.js" crossorigin="anonymous"></script>
            
     
@@ -131,7 +131,7 @@
 
             <div class = 'container'>
                 <div class = 'row'>
-                    <div class = 'row col-12 d-flex justify-content-center'>
+                    <div class = 'row col-12 d-flex justify-content-center '>
                     ${createHTML(myTeam)}
                     </div>
                 </div>
