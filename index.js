@@ -168,7 +168,8 @@ const promptEmployee = () => {
             default: false
         },
 
-    ])
+    ])  
+        // destructing properties for Roles to receive their data and output
         .then(teamEmployeeData => {
             let newEmployee;
             let { name, id, email, role, github, school, confirmNewEmployee } = teamEmployeeData;
@@ -188,11 +189,12 @@ const promptEmployee = () => {
                     break;
                 }
                 
+                // if user confirms they want to add a new Team member then run employee prompt then push to array, otherwise push information to teamArr
                 teamProfileArr.push(newEmployee);
                     if (confirmNewEmployee) {
                         return promptEmployee(teamProfileArr)
                     } else return teamProfileArr
-        });
+        }); 
 };
 
 
@@ -223,3 +225,13 @@ function writeFile(data) {
 addManager()
     .then(promptEmployee)
     .then(answers => { console.log(answers)})
+    .then(teamProfile => {
+        return buildHTML(teamProfile);
+    })
+    .then(pageHTML => {
+        writeFile(pageHTML);
+    })
+    .catch(err => {
+        console.log(err);
+       
+    });
