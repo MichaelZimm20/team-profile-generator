@@ -52,7 +52,7 @@ function teamPrompt() {
 
 // Add Manager Prompt 
 const addManager = () => {
-    return inquirer.prompt([
+    inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -116,17 +116,18 @@ const addManager = () => {
 
         // push items to array
         teamProfileArr.push(manager);
+        confirmEmployee()
     })
 }
 
 // Add Engineer Prompt
 const addEngineer = () => {
     console.log(`
-        =================
+        ==============================
         Add a New Engineer to the Team
-        =================
+        ==============================
         `);
-        return inquirer.prompt([
+         inquirer.prompt([
            {
                 type: 'input',
                 name: 'name',
@@ -191,13 +192,144 @@ const addEngineer = () => {
 
                 // push items to array
                 teamProfileArr.push(engineer);
+                confirmEmployee()
             })
 }
 
+// Add Intern Prompt
+const addIntern = () => {
+    console.log(`
+        ==============================
+        Add a New Intern to the Team
+        ==============================
+        `);
+         inquirer.prompt([
+           {
+                type: 'input',
+                name: 'name',
+                message: 'What is the Intern name ? (Required)',
+                validate: nameInput => {
+                    if (nameInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid Intern name!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'id',
+                message: "Enter the Intern's ID",
+                validate: employeeId => {
+                    if (employeeId) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid ID!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'email',
+                message: 'What is the email address? (Required)',
+                validate: emailInput => {
+                    if (emailInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid email address!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'school',
+                message: 'Since you are an Intern, please enter the school you attended. (Required)',
+                validate: schoolInput => {
+                    if (schoolInput) {
+                        return true;
+                    } else {
+                        console.log('You need to enter a valid GitHub username!');
+                        return false;
+                    }
+                }
+            }
+        ])
+
+        .then(teamIntern => {
+                const name = teamIntern.name;
+                const id = teamIntern.id;
+                const email = teamIntern.email;
+                const school = teamIntern.school;
+
+                const intern = new Intern(name, id, email, school); 
+
+                // push items to array
+                teamProfileArr.push(intern);
+                confirmEmployee()
+            })
+}
+
+// Confirm if user would wants to add another employee Prompt
+const confirmEmployee = () => {
+    console.log(`
+        ===================================
+        Add a another employee to the Team
+        ===================================
+        `);
+    inquirer.prompt([
+        {
+            type: 'confirm',
+            name: 'confirmNewEmployee',
+            message: 'Would you like to add another employee?',
+            default: false
+        }
+    ])
+    .then (teamEmployeeData => {
+
+        if (teamEmployeeData.confirmNewEmployee === true) {
+            return teamPrompt(teamProfileArr)
+        } else {
+            return teamProfileArr
+        }
+    }) 
+}
 
 
+// A function to write HTML file
+function writeToFile(data) {
+    return new Promise((resolve, reject) => {
+        fs.writeFile('./dist/index.html', data, err => {
+            // if there's an error, reject the Promise and send the error to the Promise's .catch() method
+            if (err) {
+                reject(err);
+                // return out of the function here to make sure the Promise doesn't accidentally execute the resolve() function as well
+                return;
+            }
 
-
+            // if everything went well, resolve the Promise and send te successful data to the `.then()` method 
+            resolve({
+                ok: true,
+                message: 'Your HTML file has been created!'
+            });
+        });
+    });
+};
 
 
 teamPrompt()
+    .then(answers => { 
+        console.log(answers)
+    //     return buildHTML(answers);
+    })
+    // .then(teamProfileArr => {
+    //     return writeToFile(teamProfileArr);
+    // })
+    // .then(writeToFileResponse => {
+    //     console.log(writeToFileResponse.message)
+    // })
+    // .catch(err => {
+    //     console.log(err);
+    // });
