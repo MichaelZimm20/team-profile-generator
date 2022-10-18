@@ -50,7 +50,7 @@ function teamPrompt() {
     })
 }
 
-// Manager Prompt 
+// Add Manager Prompt 
 const addManager = () => {
     return inquirer.prompt([
         {
@@ -119,4 +119,85 @@ const addManager = () => {
     })
 }
 
+// Add Engineer Prompt
+const addEngineer = () => {
+    console.log(`
+        =================
+        Add a New Engineer to the Team
+        =================
+        `);
+        return inquirer.prompt([
+           {
+                type: 'input',
+                name: 'name',
+                message: 'What is the engineer name ? (Required)',
+                validate: nameInput => {
+                    if (nameInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid engineer name!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'id',
+                message: "Enter the engineer's ID",
+                validate: employeeId => {
+                    if (employeeId) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid ID!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'email',
+                message: 'What is the email address? (Required)',
+                validate: emailInput => {
+                    if (emailInput) {
+                        return true;
+                    } else {
+                        console.log('Please enter a valid email address!');
+                        return false;
+                    }
+                }
+            },
+            {
+                type: 'input',
+                name: 'github',
+                message: 'Since you are an Engineer, please enter a github username. (Required)',
+                validate: gitInput => {
+                    if (gitInput) {
+                        return true;
+                    } else {
+                        console.log('You need to enter a valid GitHub username!');
+                        return false;
+                    }
+                }
+            }
+        ])
 
+        .then(teamEngineer => {
+                const name = teamEngineer.name;
+                const id = teamEngineer.id;
+                const email = teamEngineer.email;
+                const github = teamEngineer.github;
+
+                const engineer = new Engineer(name, id, email, github); 
+
+                // push items to array
+                teamProfileArr.push(engineer);
+            })
+}
+
+
+
+
+
+
+
+teamPrompt()
