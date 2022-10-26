@@ -13,8 +13,8 @@ const buildHTML = require('./src/buildHTML');
 //team profile array 
 const teamProfileArr = [];
 
-function teamPrompt() {
-    inquirer.prompt({
+async function teamPrompt() {
+    return inquirer.prompt({
         type: 'list',
         name: 'getEmployee',
         message: 'Who would you like to add to your team?',
@@ -22,12 +22,13 @@ function teamPrompt() {
             'Manager', 
             'Engineer', 
             'Intern',
-            'Add another Employee'
+            'Team Complete! Exit'
         ]
     })
-    .then(answers => {
+    .then(teamAnswers => {
+        // console.log(teamAnswers);
         // Switch statement to handle if user selects from initialPrompt choices
-        switch (answers.getEmployee) {
+        switch (teamAnswers.getEmployee) {
             case 'Manager':
                 addManager();
                 break;
@@ -37,22 +38,35 @@ function teamPrompt() {
             case 'Intern':
                 addIntern();
                 break;
-            case 'Add another Employee':
-                confirmEmployee();
+            case 'Team Complete! Exit':
+                confirmTeam();
                 break;
            
             default:
                 // re-run prompt 
                 teamPrompt();
-                break;
+                
         }
     
     })
+    .then(answers => { 
+        console.log(answers)
+        return buildHTML(answers);
+    })
+    .then(teamProfileArr => {
+        return writeToFile(teamProfileArr);
+    })
+    .then(writeToFileResponse => {
+        console.log(writeToFileResponse.message)
+    })
+    .catch(err => {
+        console.log(err);
+    });
 }
 
 // Add Manager Prompt 
 const addManager = () => {
-    inquirer.prompt([
+   inquirer.prompt([
         {
             type: 'input',
             name: 'name',
@@ -112,22 +126,30 @@ const addManager = () => {
         const email = teamManager.email;
         const officeNum = teamManager.officeNumber;
 
-        const manager = new Manager(name, id, email, officeNum); 
-
+        const manager = new Manager(
+            name, 
+            id, 
+            email, 
+            officeNum
+        ); 
+        // console.log(teamManager);
         // push items to array
-        teamProfileArr.push(manager);
-        confirmEmployee()
+        const push = teamProfileArr.push(manager);
+        // console.log("teamPushed:", push);
+        // console.log("ManagerInfo:", manager);
+        // console.log("TeamProfile:", teamProfileArr);
+        teamPrompt()
     })
 }
 
 // Add Engineer Prompt
-const addEngineer = () => {
+ const addEngineer = () => {
     console.log(`
         ==============================
         Add a New Engineer to the Team
         ==============================
         `);
-         inquirer.prompt([
+       return inquirer.prompt([
            {
                 type: 'input',
                 name: 'name',
@@ -189,10 +211,11 @@ const addEngineer = () => {
                 const github = teamEngineer.github;
 
                 const engineer = new Engineer(name, id, email, github); 
+                // console.log(teamEngineer);
 
                 // push items to array
                 teamProfileArr.push(engineer);
-                confirmEmployee()
+                teamPrompt()
             })
 }
 
@@ -265,42 +288,34 @@ const addIntern = () => {
                 const school = teamIntern.school;
 
                 const intern = new Intern(name, id, email, school); 
-
+                // console.log(teamIntern);
                 // push items to array
                 teamProfileArr.push(intern);
-                confirmEmployee()
+                teamPrompt()
             })
 }
 
 // Confirm if user would wants to add another employee Prompt
-const confirmEmployee = () => {
+const confirmTeam = () => {
     console.log(`
         ===================================
-        Add a another employee to the Team
+                    Create Team
         ===================================
         `);
     inquirer.prompt([
         {
             type: 'confirm',
             name: 'confirmNewEmployee',
-            message: 'Would you like to add another employee?',
+            message: 'Team Finished! Create my team.',
             default: false
         }
     ])
-    .then (teamEmployeeData => {
-
-        if (teamEmployeeData.confirmNewEmployee === true) {
-            return teamPrompt(teamProfileArr)
-        } else {
-            return teamProfileArr
-        }
-    }) 
 }
 
 
 // A function to write HTML file
 function writeToFile(data) {
-    return new Promise((resolve, reject) => {
+      return new Promise((resolve, reject) => {
         fs.writeFile('./dist/index.html', data, err => {
             // if there's an error, reject the Promise and send the error to the Promise's .catch() method
             if (err) {
@@ -318,12 +333,16 @@ function writeToFile(data) {
     });
 };
 
-
 teamPrompt()
-    .then(answers => { 
-        console.log(answers)
-    //     return buildHTML(answers);
-    })
+//  .then((answers) => {
+//     //   console.log('teamProfile',teamProfileArr);
+//       console.log('==========================');
+//       console.log(answers)
+//  })
+    // .then(answers => { 
+    //     console.log(answers)
+    //     // return buildHTML(answers);
+    // })
     // .then(teamProfileArr => {
     //     return writeToFile(teamProfileArr);
     // })

@@ -89,7 +89,7 @@
                      teamArr.push(internCard);
                  }
                 
-        }
+        })
        
        console.log(teamArr);
         return teamArr.join('');
