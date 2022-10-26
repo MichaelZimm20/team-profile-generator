@@ -50,14 +50,11 @@ async function teamPrompt() {
     
     })
     .then(answers => { 
-        console.log(answers)
-        return buildHTML(answers);
+        
+        return buildHTML(teamProfileArr);
     })
     .then(teamProfileArr => {
         return writeToFile(teamProfileArr);
-    })
-    .then(writeToFileResponse => {
-        console.log(writeToFileResponse.message)
     })
     .catch(err => {
         console.log(err);

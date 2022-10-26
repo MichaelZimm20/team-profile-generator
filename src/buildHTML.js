@@ -67,37 +67,38 @@
     //creates team html
     const createHTML = (myTeam) => {
         const teamArr = [];
-      
-      for (let member of myTeam) {
-        // teamArr.forEach(member => {
+   
+    //   for (let member of myTeam) {
+        // myTeam.forEach(member => {
+            for (i = 0; i < myTeam.length; i++ ) {
             // const role = member.getRole();
     
 
-                if (member.getRole() === 'Manager') {
+                if (myTeam[i].getRole() === 'Manager') {
                     console.log("created manager");
-                    const managerCard = managerGenerator(member);
+                    const managerCard = managerGenerator(myTeam[i]);
                      teamArr.push(managerCard);
                  }
-                 if (member.getRole() === 'Engineer') {
+                 if (myTeam[i].getRole() === 'Engineer') {
                     console.log("created engineer");
-                    const engineerCard = engineerGenerator(member);
+                    const engineerCard = engineerGenerator(myTeam[i]);
                     teamArr.push(engineerCard)
                 }
-                if (member.getRole() === 'Intern') {
+                if (myTeam[i].getRole() === 'Intern') {
                     console.log("created intern");
-                    const internCard = internGenerator(member);
+                    const internCard = internGenerator(myTeam[i]);
                      teamArr.push(internCard);
                  }
                 
-        })
+        }
        
-       console.log(teamArr);
+    //    console.log(teamArr);
         return teamArr.join('');
 
     }
 
 
-    const generateTeamProfile = function (myTeam){
+    module.exports = function (myTeam){
         // console.log(myTeam);
         return `
         <!DOCTYPE html>
@@ -147,6 +148,5 @@
         `;
     };
 
-//export module 
-module.exports = generateTeamProfile;
+
 
