@@ -39,7 +39,7 @@
  ## Important Links 
 * GitHub Link: https://github.com/MichaelZimm20/team-profile-generator
 
-* Application Demonstration Link: https://drive.google.com/file/d/1zF8ykLjR6H-YceG6pQyuEYQ4123wHRxW/view?usp=sharing
+* Application Demonstration Link: https://www.loom.com/share/79500454cfcb4875a23b4673567f1277
 
 
 ## Questions 
